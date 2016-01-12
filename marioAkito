@@ -1,0 +1,172 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
+Minim minim;
+AudioPlayer file, file2, file3, file4;
+
+float stiffness=0.1;
+float damping=0.5;
+float velocity=0.0;
+float targetY;
+float y2=394;
+float y=350;
+float yy=400;
+float x=20;
+float x2=400;
+int s=100;
+float xsp=2;
+float ysp=5;
+int count;
+Kira kira, kira2;
+Mario mario;
+Block block, block2, block3;
+Kumo kumo, kumo2, kumo3;
+Coine coine, coine2;
+PImage mari;
+PImage bl;
+PImage bl2;
+PImage kirar;
+PImage kumon;
+PImage coin;
+
+void setup() {
+
+  size(500, 500);
+  kira=new Kira(400, 400, 30, 20, 3);
+  kira2=new Kira(300, 300, 30, 20, 3);
+  mario=new Mario(20, 400, 15, 0, 0);
+  block=new Block(0, 415, 100, 100, 1);
+  block2=new Block(200, 400, 100, 100, 1);
+  block3=new Block(400, 380, 100, 120, 1);
+  kumo=new Kumo(200, 200, 200, 100, 1.1);
+  kumo2=new Kumo(300, 100, 40, 30, 1.8);
+  kumo3=new Kumo(400, 150, 300, 150, 1);
+  coine=new Coine(250, 400, 20, 1);
+  coine2=new Coine(300, 300, 20, 1);
+  minim = new Minim(this);
+
+  file=minim.loadFile("decision15.mp3", 2048);
+  file2=minim.loadFile("cursor10.mp3", 2048);
+  file3=minim.loadFile("decision22.mp3", 2048);
+  file4=minim.loadFile("loop1.mp3", 2048);
+  mari= loadImage("mario.png");
+  bl=loadImage("block.png");
+  kirar=loadImage("kira.png");
+  kumon=loadImage("kumo.png");
+  coin=loadImage("coin.png");
+  file4.loop();
+  //  bl2=loadImage("bloak2.png");
+  noStroke();
+  // file4.play();
+}
+void draw() {
+  background(0, 255, 255);
+
+  fill(0);
+  text("point:"+count, 10, 10);
+  kira.spd();
+  kira2.spd();
+  mario.move();
+  block.display();
+  block2.display();
+  block3.display();
+  block.move();
+  block2.move();
+  block3.move();
+  kumo.display();
+  kumo.move();
+  kumo2.display();
+  kumo2.move();
+  kumo3.display();
+  kumo3.move();
+  coine.display();
+  coine.getCoine();
+  coine.move();
+  coine2.display();
+  coine2.getCoine();
+  coine2.move();
+
+
+  //if on Kira &&kira2
+  if (kira.onb()==true) {
+    kira.sx=0;
+    kira.sy=0;
+    mario.spy=-5;
+    //kira.spy=3;
+    file.play();
+    file.rewind();
+  }
+  if (kira2.onb()==true) {
+    kira2.sx=0;
+    kira2.sy=0;
+    mario.spy=-5;
+    //kira.spy=3;
+    file.play();
+    file.rewind();
+  }
+
+  if (block.onb()==false&&block2.onb()==false&&block3.onb()==false) {
+    mario.spy+=0.1;
+    if (mario.y>height-mario.s) {
+      fill(0);
+      text("GAME OVER", width/2, height/2);
+      noLoop();
+      file4.pause();
+    }
+  } else {
+    mario.spy=0;
+  }
+  if (block.onb()){
+   mario.y=block.by-mario.s; 
+  }
+    if (block2.onb()){
+   mario.y=block2.by-mario.s; 
+  }
+    if (block3.onb()){
+   mario.y=block3.by-mario.s; 
+  }
+
+  println("yoko:"+block.touchSide());
+  println("yoko2:"+block2.touchSide());
+  println("yoko3:"+block3.touchSide());
+/*  if (block.touchSide()==true||block2.touchSide()==true||block3.touchSide()==true) {
+    mario.spx=0;
+  }
+*/
+  float d=dist(mario.x, mario.y, kira.x, kira.y);
+  if (d<15&&kira.onb()==false) {
+    fill(0);
+    text("GAME OVER", width/2, height/2);
+    noLoop();
+    file4.pause();
+  }
+  float d2=dist(mario.x, mario.y, kira2.x, kira2.y);
+  if (d2<15&&kira2.onb()==false) {
+    fill(0);
+    text("GAME OVER", width/2, height/2);
+    noLoop();
+    file4.pause();
+  }
+}
+
+
+
+void keyPressed() {
+  if (keyPressed) {
+    if (key==CODED) {
+      if (keyCode==RIGHT) {
+        mario.spx=2;
+      } else if (keyCode==LEFT) {// else ga nakattanode error
+        mario.spx=-2;
+      } else if (keyCode==UP&&block.onb()||block2.onb()||block3.onb()) {
+        mario.spy=-5;
+        file2.play();
+        file2.rewind();
+      }
+    }
+  }
+}
