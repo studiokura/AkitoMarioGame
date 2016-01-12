@@ -1,0 +1,44 @@
+class Block {
+  float bx;
+  float by;
+  float bd;
+  float bs;
+  float bsp;
+  Block(int xpos, int ypos, int dpos, int spos, int sppos) {
+    bx=xpos;
+    by=ypos;
+    bd=dpos;
+    bs=spos;
+    bsp=sppos;
+  }
+  void display() {
+    image(bl, bx, by, bd, bs);
+  }
+  void move() {
+    bx=bx-bsp;
+    if (bx<-bd) {
+      bx=width;
+    }
+    if (bx>500) {
+      bx=0-bs;
+    }
+  }
+
+  boolean onb() {
+    if (mario.x+mario.s>bx&&mario.x<bx+bd&&mario.y+mario.s>=by&&by+7>mario.y) {//&&x<bx+bd) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  boolean touchSide() {
+    if (mario.x+mario.s>bx&&mario.y+mario.s>by+30) {
+      return true;
+     
+      
+    }else{
+      return false;
+    }
+    
+  }
+}
