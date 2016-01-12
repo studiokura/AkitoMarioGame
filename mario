@@ -1,0 +1,40 @@
+class Mario {
+  float x;
+  float y;
+  float s;
+  float spx;
+  float spy;
+  Mario(float xpos, float ypos, float spos, float spxpos, float spypos) {
+    x=xpos;
+    y=ypos;
+    s=spos;
+    spx=spxpos;
+    spy=spypos;
+  }
+  void move() {
+    x=x+spx;
+    y=y+spy;
+    image(mari, x, y, 20, 20);
+
+   
+
+    if (spx>0) {
+      spx-=0.02;
+    }
+    if (spx<0) {
+      spx+=0.02;
+    }
+
+
+    if (x<0) {
+      x=0;
+    }
+    if (x>500) {
+      
+      x=0;
+    }
+    if (y<0) {
+      y=0;
+    }
+  }
+}
