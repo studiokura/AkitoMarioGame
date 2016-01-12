@@ -1,0 +1,43 @@
+class Coine {
+  float x;
+  float y;
+  float s;
+  float sp;
+  Coine (float xpos, float ypos, float spos, float sppos) {
+    x=xpos;
+    y=ypos;
+    s=spos;
+    sp=sppos;
+  }
+  void display() {
+    image(coin, x, y, s, s);
+  }
+  void getCoine() {
+    if (mario.x+mario.s>x&&x+s>mario.x&&mario.y+mario.s>y&&y+s>mario.y) {
+      x=500;
+      y=int(random(300,400));
+      count++;
+      file3.play();
+      file3.rewind();
+    }
+  }
+  void move() {
+    if (count>5) {
+      block.bsp=2;
+    }
+    if(count>7){
+      block2.bsp=-2;
+      kumo3.sp=0.1;
+    }
+    if(count>10){
+      block3.bsp=3;
+      kira.spx=5;
+    }
+    x=x-sp;
+    if (0>x+s) {
+      x=500;
+      y=int(random(300, 400));
+    }
+    
+  }
+}
