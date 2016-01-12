@@ -1,0 +1,38 @@
+class Kira {
+  int x;
+  int y;
+  int sx;
+  int sy;
+  int spx;
+  int spy;
+  Kira(int xpos, int ypos, int sxpos, int sypos, int spxpos) {
+    x=xpos;
+    y=ypos;
+    sx=sxpos;
+    spx=spxpos;
+    sy=sypos;
+  }
+  void spd() {
+    x=x-spx;
+    y=y+spy;
+    if (x+15<0) {
+      x=500;
+      y=int(random(300, 400));
+      sx=30;
+      sy=20;
+      spy=0;
+    }
+    fill(255);
+    image(kirar, x, y, sx, sy);
+  }
+
+  boolean onb() {
+    if (mario.x+mario.s>x&&mario.x<x+sx&&mario.y+mario.s>=y&&y+10>mario.y) {//&&x<bx+bd) {
+      return true;
+    } else {
+      return false;
+    }
+
+    
+  }
+}
