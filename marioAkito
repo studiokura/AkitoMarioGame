@@ -7,7 +7,7 @@ import ddf.minim.ugens.*;
 
 Minim minim;
 AudioPlayer file, file2, file3, file4;
-
+Timer timer;
 float stiffness=0.1;
 float damping=0.5;
 float velocity=0.0;
@@ -21,6 +21,7 @@ int s=100;
 float xsp=2;
 float ysp=5;
 int count;
+int high;
 Kira kira, kira2;
 Mario mario;
 Block block, block2, block3;
@@ -32,13 +33,14 @@ PImage bl2;
 PImage kirar;
 PImage kumon;
 PImage coin;
-
+int hihi;
+String[]data=new String[0];
 void setup() {
-
+  data=loadStrings("Time.txt");
   size(500, 500);
   kira=new Kira(400, 400, 30, 20, 3);
   kira2=new Kira(300, 300, 30, 20, 3);
-  mario=new Mario(20, 400, 15, 0, 0);
+  mario=new Mario(20, 400, 20, 0, 0);
   block=new Block(0, 415, 100, 100, 1);
   block2=new Block(200, 400, 100, 100, 1);
   block3=new Block(400, 380, 100, 120, 1);
@@ -48,6 +50,8 @@ void setup() {
   coine=new Coine(250, 400, 20, 1);
   coine2=new Coine(300, 300, 20, 1);
   minim = new Minim(this);
+  timer=new Timer(10, 20, 30, 0);
+
 
   file=minim.loadFile("decision15.mp3", 2048);
   file2=minim.loadFile("cursor10.mp3", 2048);
@@ -61,11 +65,14 @@ void setup() {
   file4.loop();
   //  bl2=loadImage("bloak2.png");
   noStroke();
+  fill(0);
+  hihi=int(data[0]);
   // file4.play();
 }
 void draw() {
-  background(0, 255, 255);
 
+  background(0, 255, 255);
+  text("Highscore:"+hihi, 10, 35);
   fill(0);
   text("point:"+count, 10, 10);
   kira.spd();
@@ -89,6 +96,8 @@ void draw() {
   coine2.display();
   coine2.getCoine();
   coine2.move();
+  timer.move();
+
 
 
   //if on Kira &&kira2
@@ -114,40 +123,44 @@ void draw() {
     if (mario.y>height-mario.s) {
       fill(0);
       text("GAME OVER", width/2, height/2);
+
+      saveData();
       noLoop();
       file4.pause();
     }
   } else {
     mario.spy=0;
   }
-  if (block.onb()){
-   mario.y=block.by-mario.s; 
+  if (block.onb()) {
+    mario.y=block.by-mario.s;
   }
-    if (block2.onb()){
-   mario.y=block2.by-mario.s; 
+  if (block2.onb()) {
+    mario.y=block2.by-mario.s;
   }
-    if (block3.onb()){
-   mario.y=block3.by-mario.s; 
+  if (block3.onb()) {
+    mario.y=block3.by-mario.s;
   }
 
   println("yoko:"+block.touchSide());
   println("yoko2:"+block2.touchSide());
   println("yoko3:"+block3.touchSide());
-/*  if (block.touchSide()==true||block2.touchSide()==true||block3.touchSide()==true) {
-    mario.spx=0;
-  }
-*/
-  float d=dist(mario.x, mario.y, kira.x, kira.y);
+  /*  if (block.touchSide()==true||block2.touchSide()==true||block3.touchSide()==true) {
+   mario.spx=0;
+   }
+   */
+  float d=dist(mario.cx, mario.cy, kira.cx, kira.cy);
   if (d<15&&kira.onb()==false) {
     fill(0);
     text("GAME OVER", width/2, height/2);
+    saveData();
     noLoop();
     file4.pause();
   }
-  float d2=dist(mario.x, mario.y, kira2.x, kira2.y);
+  float d2=dist(mario.cx, mario.cy, kira2.cx, kira2.cy);
   if (d2<15&&kira2.onb()==false) {
     fill(0);
     text("GAME OVER", width/2, height/2);
+    saveData();
     noLoop();
     file4.pause();
   }
@@ -169,4 +182,12 @@ void keyPressed() {
       }
     }
   }
+}
+
+void saveData() {
+  String i=str(count+timer.st);
+  if (count+timer.st > hihi) {
+    data[0]=i;
+  }
+  saveStrings("data/Time.txt", data);
 }
