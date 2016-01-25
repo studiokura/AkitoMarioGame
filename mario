@@ -4,6 +4,8 @@ class Mario {
   float s;
   float spx;
   float spy;
+  float cx;
+  float cy;
   Mario(float xpos, float ypos, float spos, float spxpos, float spypos) {
     x=xpos;
     y=ypos;
@@ -12,11 +14,20 @@ class Mario {
     spy=spypos;
   }
   void move() {
+
     x=x+spx;
     y=y+spy;
-    image(mari, x, y, 20, 20);
+    cx=x+s/2;
+    cy=y+s/2;
+    image(mari, x, y, s, s);
+    /*
+    fill(255);
+    rect(x, y, s, s);
+    fill(0);
+    //ellipse(x,y,5,5);
+    ellipse(cx, cy, 5, 5);
+*/
 
-   
 
     if (spx>0) {
       spx-=0.02;
@@ -30,7 +41,7 @@ class Mario {
       x=0;
     }
     if (x>500) {
-      
+
       x=0;
     }
     if (y<0) {
