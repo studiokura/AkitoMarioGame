@@ -5,6 +5,8 @@ class Kira {
   int sy;
   int spx;
   int spy;
+  int cx;
+  int cy;
   Kira(int xpos, int ypos, int sxpos, int sypos, int spxpos) {
     x=xpos;
     y=ypos;
@@ -15,6 +17,8 @@ class Kira {
   void spd() {
     x=x-spx;
     y=y+spy;
+    cx=x+sx/2;
+    cy=y+sy/2;
     if (x+15<0) {
       x=500;
       y=int(random(300, 400));
@@ -24,10 +28,15 @@ class Kira {
     }
     fill(255);
     image(kirar, x, y, sx, sy);
+    /*rect(x,y,sx,sy);
+    fill(0);
+   // ellipse(x,y,5,5);
+    ellipse(cx,cy,5,5);
+    */
   }
 
   boolean onb() {
-    if (mario.x+mario.s>x&&mario.x<x+sx&&mario.y+mario.s>=y&&y+10>mario.y) {//&&x<bx+bd) {
+    if (mario.x+mario.s>x && mario.x<x+sx && mario.y+mario.s>= y &&mario.y+mario.s<y+sy) {//&&x<bx+bd) {
       return true;
     } else {
       return false;
